@@ -13,13 +13,17 @@ def add_student(request):
     - GET: Display the empty form.
     - POST: Validate and save the student, then redirect to dashboard.
     """
-    form = StudentForm() 
-    if request.method == 'POST':
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('students_dash')
-    return render(request, 'admin/add_student.html', {'form': form})
+    if request.user.is_authenticated and request.user.is_staff:
+        form = StudentForm() 
+        if request.method == 'POST':
+            form = StudentForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('students_dash')
+        return render(request, 'admin/add_student.html', {'form': form})
+    else:
+        messages.warning(request, 'You have to login as administrator to access this page...')
+        return redirect('check_results')
 
 
 def add_result(request):
@@ -29,37 +33,51 @@ def add_result(request):
     - GET: Display the empty result form.
     - POST: Save result and redirect to results dashboard on success.
     """
-    form = ResultForm() 
-    if request.method == 'POST':
-        form = ResultForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('results_dash')
-    return render(request, 'admin/add_result.html', {'form': form})
-
+    if request.user.is_authenticated and request.user.is_staff:
+        form = ResultForm() 
+        if request.method == 'POST':
+            form = ResultForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('results_dash')
+        return render(request, 'admin/add_result.html', {'form': form})
+    else:
+        messages.warning(request, 'You have to login as administrator to access this page...')
+        return redirect('check_results')
+    
 
 def students_dash(request):
     """
     Display all students in descending order by ID.
     """
-    students = Student.objects.all().order_by('-id')
-    return render(request, 'admin/students_dash.html', {'students': students})
-
+    if request.user.is_authenticated and request.user.is_staff:
+        students = Student.objects.all().order_by('-id')
+        return render(request, 'admin/students_dash.html', {'students': students})
+    else:
+        messages.warning(request, 'You have to login as administrator to access this page...')
+        return redirect('check_results')
 
 def results_dash(request):
     """
     Display all results in descending order by ID.
     """
-    results = Result.objects.all().order_by('-id')
-    return render(request, 'admin/results_dash.html', {'results': results})
-
+    if request.user.is_authenticated and request.user.is_staff:
+        results = Result.objects.all().order_by('-id')
+        return render(request, 'admin/results_dash.html', {'results': results})
+    else:
+        messages.warning(request, 'You have to login as administrator to access this page...')
+        return redirect('check_results')
 
 def log_out(request):
     """
     Log out the current user and redirect to result check page.
     """
-    logout(request)
-    return redirect('check_results')
+    if request.user.is_authenticated and request.user.is_staff:
+        logout(request)
+        return redirect('check_results')
+    else:
+        messages.warning(request, 'You have to login as administrator to access this page...')
+        return redirect('check_results')
 
 
 def main_dash(request):
@@ -72,8 +90,8 @@ def main_dash(request):
         activity = LogEntry.objects.all().order_by('-action_time')[:10]
         return render(request, 'admin/dash.html', {'activities': activity})
     else:
-        messages.warning(request, 'You have to login first...')
-        return redirect('login')
+        messages.warning(request, 'You have to login as administrator to access this page...')
+        return redirect('check_results')
 
 
 def log_in(request):
