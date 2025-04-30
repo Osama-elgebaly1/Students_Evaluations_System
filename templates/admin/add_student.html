@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+      <div class="content">
+        <h2 class="text-center mb-4">Add New Result</h2>
+
+        <form method="POST" action="{% url 'add_student' %}">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="mb-3">
+            {{ form.name.label_tag }}  
+            {{ form.name }}
+            {{ form.name.errors }}
+          </div>
+
+          <div class="mb-3">
+            {{ form.student_id.label_tag }}
+            {{ form.student_id }}
+            {{ form.student_id.errors }}
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
+{% endblock content %}

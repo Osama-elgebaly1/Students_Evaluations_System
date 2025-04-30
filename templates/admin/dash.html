@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+  <!-- Main Content -->
+  <div class="content">
+    <div class="container">
+      <h1 class="mb-4">Welcome to the Admin Dashboard</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Student Statistics</h5>
+              <p class="card-text">View and manage the students' data.</p>
+              <a href="{% url "students_dash" %}" class="btn btn-primary">View Students</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Manage Results</h5>
+              <p class="card-text">Show and add students' evaluation results.</p>
+              <a href="{% url "results_dash" %}" class="btn btn-primary">View Results</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Latest Activities</h5>
+              <p class="card-text">See the recent activities or updates made on the platform.</p>
+              <!-- Example for showing recent activities -->
+              <ul>
+                {% for activity in activities %}
+                  <li>{{activity}}</li>
+                {% endfor %}
+                
+         
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock content %}
