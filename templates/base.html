@@ -68,6 +68,13 @@
   </style>
 </head>
 <body>
+{% if messages %}
+   {% for message in messages %}
+   <div class="alert alert-danger" role="alert">
+    {{message}}
+  </div>
+   {% endfor %}
+  {% endif %}
 
   <div class="dashboard-wrapper">
     <!-- Sidebar -->
@@ -76,8 +83,11 @@
       <a href="{% url "main_dash" %}">Main Dashboard</a>
       <a href="{% url 'students_dash' %}">View Students</a>
       <a href="{% url 'results_dash' %}">Manage Result</a>
+      <a href="{% url 'admins_dash' %}">View Admins</a>
       <a href="{% url 'add_student' %}">Add Student</a>
       <a href="{% url 'add_result' %}">Add Results</a>
+      <a href="{% url "add_admin" %}">Add Admin</a>
+      <a href="{% url "upload_excel" %}">Upload Excel</a>
       <a href="{% url 'admin-logout' %}">Logout</a>
     </div>
 

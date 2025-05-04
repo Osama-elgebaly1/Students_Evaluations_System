@@ -14,6 +14,10 @@
             <th>Grade</th>
             <th>Rating</th>
             <th>Month</th>
+            <th>Message</th>
+            <th>Edit</th>
+            <th>Delete</th>
+
           </tr>
         </thead>
         <tbody>
@@ -29,6 +33,9 @@
                   <div class="alert alert-secondary mt-2 d-none">{{ result.message }}</div>
                 {% endif %}
               </td>
+              <td><a href="{% url 'edit_result' result.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+              <td><a href="{% url 'delete_result' result.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+
             </tr>
           {% endfor %}
         </tbody>

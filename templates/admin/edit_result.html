@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Edit Result{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4">Edit Result</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="{% url 'results_dash' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

@@ -12,13 +12,19 @@
             <tr>
               <th>Name</th>
               <th>ID</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {% for student in students %}
               <tr>
-                <td>{{ student.name }}</td>
+                
+                <td>  <a href="{% url "get_results" student.id  %} ">{{ student.name }}</a> </td>
                 <td>{{ student.student_id }}</td>
+                <td><a href="{% url 'edit_student' student.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                <td><a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+
               </tr>
             {% endfor %}
           </tbody>
