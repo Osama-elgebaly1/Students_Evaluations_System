@@ -12,6 +12,8 @@
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Delete</th>
+
             </tr>
           </thead>
           <tbody>
@@ -19,6 +21,9 @@
               <tr>
                 <td>{{ admin.username }}</td>
                 <td>{{ admin.email }}</td>
+                {% if not admin.username == user.username %}
+                    <td><a href="{% url 'delete_admin' admin.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                {% endif %}
               </tr>
             {% endfor %}
           </tbody>

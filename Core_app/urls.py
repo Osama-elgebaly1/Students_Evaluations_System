@@ -31,5 +31,9 @@ urlpatterns = [
 
     # Upload Excel 
     path('upload_excel/', admin_views.upload_excel, name='upload_excel'),
+    
+    path('reset_password/', admin_views.reset_password, name='reset_password'),
+    path('delete_admin/<int:pk>', admin_views.delete_admin, name='delete_admin'),
+
 
 ]
