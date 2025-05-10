@@ -15,6 +15,7 @@ The **Student Evaluation System** is a Django-based web application designed for
 - **Manage Students**: Admins can add, update, and delete student records.
 - **Manage Results**: Admins can add, edit, or delete student evaluation results.
 - **Dashboard**: Admins have access to a comprehensive dashboard for managing users and results.
+- **Excel**: Admins Can upload Excel file contained students and results.
 
 ### Superuser Features:
 - **Admin Management**: Superusers can create and delete admin accounts.

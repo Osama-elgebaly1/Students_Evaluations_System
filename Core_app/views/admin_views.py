@@ -80,14 +80,14 @@ def upload_excel(request):
     """
     Handles the upload of an Excel file to update student results.
 
-    This view is accessible only to Super users. It processes the uploaded file, 
-    extracts student data (Student ID, Name, Month, Grade, Rating, and Message), and updates the database.
+    This view is accessible only to Staff users. It processes the uploaded file, 
+    extracts student data (Student ID, Name, Sector, Month, Grade, Rating, and Message), and updates the database.
     If the student or result doesn't exist, it creates new records.
 
     Redirects to the student dashboard after successful upload.
     Shows an upload form on GET requests.
 
-    Excel columns expected: ['Student ID', 'Student Name' , 'Grade', 'Rating', 'Message', 'Month']
+    Excel columns expected: ['Student ID', 'Student Name' , 'Sector', 'Grade', 'Rating', 'Message', 'Month']
 
     """
     if request.user.is_authenticated and request.user.is_staff:
