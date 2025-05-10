@@ -74,7 +74,7 @@ import pandas as pd
 from Core_app.forms import ExcelUploadForm
 
 
-@superuser_required
+@staff_required
 def upload_excel(request):
     """
     Handle the upload of an Excel file to add students and their results.
@@ -87,7 +87,7 @@ def upload_excel(request):
     Redirects to the student dashboard after successful upload.
     Shows an upload form on GET requests.
 
-    Excel columns expected: ['Student ID', 'Student Name', 'Grade', 'Rating', 'Message', 'Month']
+    Excel columns expected: ['Student ID', 'Student Name' , 'Grade', 'Rating', 'Message', 'Month']
     """
     if request.user.is_authenticated and request.user.is_staff:
         if request.method == 'POST':
@@ -100,7 +100,8 @@ def upload_excel(request):
                     # 1. Get or create the student
                     student, created = Student.objects.get_or_create(
                         student_id=row['Student ID'],
-                        defaults={'name': row['Student Name']}
+                        defaults={'name': row['Student Name'],
+                                  'sector':row['Sector']}
                     )
 
                     # 2. Check if the result for this student & month already exists

@@ -11,8 +11,8 @@
         <thead>
           <tr>
             <th>Student</th>
-            <th>Grade</th>
             <th>Rating</th>
+            <th>Grade</th>
             <th>Month</th>
             <th>Message</th>
             <th>Edit</th>
@@ -24,8 +24,8 @@
           {% for result in results %}
             <tr>
               <td>{{result.student.name}}</td>
-              <td>{{result.grade}}</td>
               <td>{{result.rating}}</td>
+              <td>{{result.grade}}</td>
               <td>{{result.month}}</td>
               <td>
                 {% if result.message %}
