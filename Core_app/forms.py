@@ -10,20 +10,21 @@ class ExcelUploadForm(forms.Form):
 class EditStudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'student_id']  # Adjust based on your model
+        fields = ['name','sector', 'student_id']  # Adjust based on your model
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'sector': forms.TextInput(attrs={'class': 'form-control'}),
             'student_id': forms.TextInput(attrs={'class': 'form-control'}),
         }
         
 class EditResultForm(forms.ModelForm):
     class Meta:
         model = Result
-        fields = ['student', 'grade','rating','message','month' ]  # Adjust based on your model
+        fields = ['student', 'rating','grade','message','month' ]  # Adjust based on your model
         widgets = {
             'student': forms.Select(attrs={'class': 'form-control'}),
-            'grade': forms.NumberInput(attrs={'class': 'form-control'}),
-            'rating': forms.TextInput(attrs={'class': 'form-control'}),
+            'grade': forms.TextInput(attrs={'class': 'form-control'}),
+            'rating': forms.NumberInput(attrs={'class': 'form-control'}),
             'message': forms.TextInput(attrs={'class': 'form-control'}),
             'month': forms.DateInput(
                 attrs={
@@ -100,9 +101,10 @@ class AdminRegistrationForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'student_id']
+        fields = ['name', 'sector','student_id']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter student name'}),
+            'sector': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter student sector'}),
             'student_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter student ID'}),
         }
 
@@ -123,11 +125,11 @@ class AdminLoginForm(forms.Form):
 class ResultForm(forms.ModelForm):
     class Meta:
         model = Result
-        fields = ['student', 'grade', 'rating', 'message', 'month']
+        fields = ['student', 'rating', 'grade', 'message', 'month']
         widgets = {
             'student': forms.Select(attrs={'class': 'form-control'}),
-            'grade': forms.NumberInput(attrs={'class': 'form-control'}),
-            'rating': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 2}),
+            'grade': forms.TextInput(attrs={'class': 'form-control'}),
+            'rating': forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 2}),
             'message': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Optional message...'}),
             'month': forms.DateInput(
                 attrs={

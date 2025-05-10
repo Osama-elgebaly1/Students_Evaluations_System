@@ -4,6 +4,7 @@ from django.db import models
 
 class Student(models.Model):
     name = models.CharField(max_length=255)
+    sector = models.CharField(max_length=100,null=True)  # <-- New field added
     student_id = models.CharField(max_length=50,unique=True)
 
     def __str__(self):
@@ -27,8 +28,8 @@ class Result(models.Model):
     )
     
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
-    grade = models.IntegerField()
-    rating = models.CharField(max_length=2)
+    grade = models.CharField(max_length=2)
+    rating = models.DecimalField(max_digits=4,decimal_places=2)
     message = models.TextField(max_length=500,null=True,blank=True)
     month = models.DateField()  
 

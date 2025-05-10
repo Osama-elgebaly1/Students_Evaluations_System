@@ -75,7 +75,7 @@ from Core_app.forms import ExcelUploadForm
 from datetime import datetime
 
 
-@superuser_required
+@staff_required
 def upload_excel(request):
     """
     Handles the upload of an Excel file to update student results.
@@ -84,9 +84,11 @@ def upload_excel(request):
     extracts student data (Student ID, Name, Month, Grade, Rating, and Message), and updates the database.
     If the student or result doesn't exist, it creates new records.
 
-    Returns:
-        - Redirects to 'students_dash' after successful upload.
-        - Displays the upload form if the method is not POST or if the user is not a staff member.
+    Redirects to the student dashboard after successful upload.
+    Shows an upload form on GET requests.
+
+    Excel columns expected: ['Student ID', 'Student Name' , 'Grade', 'Rating', 'Message', 'Month']
+
     """
     if request.user.is_authenticated and request.user.is_staff:
         if request.method == 'POST':
@@ -99,7 +101,8 @@ def upload_excel(request):
                     # Get or create student
                     student, _ = Student.objects.get_or_create(
                         student_id=row['Student ID'],
-                        defaults={'name': row['Student Name']}
+                        defaults={'name': row['Student Name'],
+                                  'sector':row['Sector']}
                     )
 
                     # Convert month (e.g., "2024-04" or "April") to date object

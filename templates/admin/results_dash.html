@@ -11,8 +11,8 @@
         <thead>
           <tr>
             <th>Student</th>
-            <th>Grade</th>
             <th>Rating</th>
+            <th>Grade</th>
             <th>Month</th>
             <th>Message</th>
             <th>Edit</th>
@@ -24,9 +24,10 @@
           {% for result in results %}
             <tr>
               <td>{{result.student.name}}</td>
-              <td>{{result.grade}}</td>
               <td>{{result.rating}}</td>
-              <td>{{ result.month|date:"F Y" }}</td>
+              <td>{{result.grade}}</td>
+              <td>{{result.month|date:"F Y" }}</td>
+
               <td>
                 {% if result.message %}
                   <button class="btn btn-sm btn-warning ms-2 toggle-message">📩 View Message</button>
