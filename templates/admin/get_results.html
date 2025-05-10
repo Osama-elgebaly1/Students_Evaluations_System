@@ -11,7 +11,7 @@
         <h5 class="card-title">Latest Evaluation</h5>
         <p><strong>Name:</strong> {{ student.name }}</p>
         <p><strong>Grade:</strong> {{ last_result.grade }} | <strong>Rating:</strong> {{ last_result.rating }}</p>
-        <p><strong>Month:</strong> {{ last_result.month }}</p>
+        <p><strong>Month:</strong> {{ last_result.month|date:"F Y"  }}</p>
 
         {% if last_result.message %}
           <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
@@ -39,7 +39,7 @@
             <tbody>
               {% for result in previous_results %}
                 <tr>
-                  <td>{{ result.month }}</td>
+                  <td>{{ result.month|date:"F Y"  }}</td>
                   <td>{{ result.grade }}</td>
                   <td>{{ result.rating }}</td>
                   <td>

@@ -25,8 +25,19 @@ class EditResultForm(forms.ModelForm):
             'grade': forms.NumberInput(attrs={'class': 'form-control'}),
             'rating': forms.TextInput(attrs={'class': 'form-control'}),
             'message': forms.TextInput(attrs={'class': 'form-control'}),
-            'month': forms.Select(attrs={'class': 'form-control'}),
+            'month': forms.DateInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'month',  # HTML5 input type for month picking
+                },
+                format='%Y-%m'  # Accepts values like "2024-04"
+            ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set input format for the DateField
+        self.fields['month'].input_formats = ['%Y-%m']
 
 from django import forms
 from django.contrib.auth.models import User
@@ -118,5 +129,16 @@ class ResultForm(forms.ModelForm):
             'grade': forms.NumberInput(attrs={'class': 'form-control'}),
             'rating': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 2}),
             'message': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Optional message...'}),
-            'month': forms.Select(attrs={'class': 'form-control'}),
+            'month': forms.DateInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'month',  # HTML5 input type for month picking
+                },
+                format='%Y-%m'  # Accepts values like "2024-04"
+            ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set input format for the DateField
+        self.fields['month'].input_formats = ['%Y-%m']

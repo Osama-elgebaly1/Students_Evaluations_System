@@ -26,7 +26,7 @@
               <td>{{result.student.name}}</td>
               <td>{{result.grade}}</td>
               <td>{{result.rating}}</td>
-              <td>{{result.month}}</td>
+              <td>{{ result.month|date:"F Y" }}</td>
               <td>
                 {% if result.message %}
                   <button class="btn btn-sm btn-warning ms-2 toggle-message">📩 View Message</button>

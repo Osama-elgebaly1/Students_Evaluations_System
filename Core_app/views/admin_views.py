@@ -72,22 +72,21 @@ def log_action(user, obj, action_flag, message):
 # Excel upload imports 
 import pandas as pd
 from Core_app.forms import ExcelUploadForm
+from datetime import datetime
 
 
 @superuser_required
 def upload_excel(request):
     """
-    Handle the upload of an Excel file to add students and their results.
+    Handles the upload of an Excel file to update student results.
 
-    - Accepts POST requests with an Excel file containing student and result data.
-    - For each row in the Excel file:
-        - Creates a Student if it doesn't already exist (based on student_id).
-        - Adds a Result for the student if one doesn't already exist for the same month.
+    This view is accessible only to Super users. It processes the uploaded file, 
+    extracts student data (Student ID, Name, Month, Grade, Rating, and Message), and updates the database.
+    If the student or result doesn't exist, it creates new records.
 
-    Redirects to the student dashboard after successful upload.
-    Shows an upload form on GET requests.
-
-    Excel columns expected: ['Student ID', 'Student Name', 'Grade', 'Rating', 'Message', 'Month']
+    Returns:
+        - Redirects to 'students_dash' after successful upload.
+        - Displays the upload form if the method is not POST or if the user is not a staff member.
     """
     if request.user.is_authenticated and request.user.is_staff:
         if request.method == 'POST':
@@ -97,32 +96,44 @@ def upload_excel(request):
                 df = pd.read_excel(excel_file)
 
                 for _, row in df.iterrows():
-                    # 1. Get or create the student
-                    student, created = Student.objects.get_or_create(
+                    # Get or create student
+                    student, _ = Student.objects.get_or_create(
                         student_id=row['Student ID'],
                         defaults={'name': row['Student Name']}
                     )
 
-                    # 2. Check if the result for this student & month already exists
-                    exists = Result.objects.filter(student=student, month=row['Month']).exists()
-                    if not exists:
-                        # 3. Create the result
+                    # Convert month (e.g., "2024-04" or "April") to date object
+                    try:
+                        if isinstance(row['Month'], str):
+                            # if format is "April" or "Apr"
+                            month_date = datetime.strptime(row['Month'], '%B')  # "April"
+                            # assign a dummy year (like current year)
+                            month_date = month_date.replace(year=datetime.now().year, day=1)
+                        else:
+                            # if it's already a timestamp or datetime
+                            month_date = pd.to_datetime(row['Month']).to_pydatetime().replace(day=1)
+                    except Exception as e:
+                        print(f"Invalid month format: {row['Month']}")
+                        continue  # skip this row
+
+                    # Check if result exists
+                    if not Result.objects.filter(student=student, month=month_date).exists():
                         Result.objects.create(
                             student=student,
                             grade=row['Grade'],
                             rating=row['Rating'],
-                            message=row.get('Message', ''),  # optional field
-                            month=row['Month']
+                            message=row.get('Message', ''),
+                            month=month_date
                         )
 
-                return redirect('students_dash')  # or wherever you want
+                return redirect('students_dash')
         else:
             form = ExcelUploadForm()
+
         return render(request, 'admin/upload_excel.html', {'form': form})
     else:
         messages.error(request,'You have to login as administrator to access this page...')
         return redirect('check_results')
-
 
 
 @staff_required
@@ -150,7 +161,7 @@ def get_results(request, pk):
         return redirect('students_dash')  # or show an empty result page
 
 
-@staff_required
+@superuser_required
 def admins_dash(request):
     """
     Display all Admins .
@@ -234,7 +245,7 @@ def add_admin(request):
     return render(request, 'admin/add_admin.html', {'form': form})
 
 
-@superuser_required
+@staff_required
 def delete_student(request,student_id):
     """
     Handle the deleting of a student .
@@ -253,9 +264,7 @@ def delete_student(request,student_id):
 
 
 
-
-
-@superuser_required
+@staff_required
 def edit_student(request, student_id):
     """
     Handle the editing of a new student via a form.
@@ -283,7 +292,7 @@ def edit_student(request, student_id):
     return render(request, 'admin/edit_student.html', {'form': form})
 
  
-@superuser_required
+@staff_required
 def add_student(request):
     """
     Handle the creation of a new student via a form.
@@ -307,7 +316,7 @@ def add_student(request):
 
 
 
-@superuser_required
+@staff_required
 def delete_result(request,result_id):
     """
     Handle the deleting of a  result for a student.
@@ -325,7 +334,7 @@ def delete_result(request,result_id):
     return redirect('results_dash')
 
 
-@superuser_required
+@staff_required
 def edit_result(request, result_id):
     """
     Handle the Editing of a result for a student.
@@ -353,7 +362,7 @@ def edit_result(request, result_id):
     return render(request, 'admin/edit_result.html', {'form': form})
 
 
-@superuser_required
+@staff_required
 def add_result(request):
     """
     Handle the creation of a new result for a student.
@@ -392,7 +401,7 @@ def results_dash(request):
     """
     Display all results in descending order by ID.
     """
-    results = Result.objects.all().order_by('-id')
+    results = Result.objects.all().order_by('-month')
     return render(request, 'admin/results_dash.html', {'results': results})
 
 

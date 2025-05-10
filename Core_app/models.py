@@ -30,7 +30,7 @@ class Result(models.Model):
     grade = models.IntegerField()
     rating = models.CharField(max_length=2)
     message = models.TextField(max_length=500,null=True,blank=True)
-    month = models.CharField(max_length=50,choices=MONTH_CHOICES)
+    month = models.DateField()  
 
     def __str__(self):
         return f"{self.student.name} - {self.rating}"

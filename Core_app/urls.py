@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/', admin_views.log_in, name='admin-login'),
     path('logout/', admin_views.log_out, name='admin-logout'),
 
-    # Admin dashboard views
+    # Main dashboard 
     path('main_dashboard/', admin_views.main_dash, name='main_dash'),
     path('results_dashboard/', admin_views.results_dash, name='results_dash'),
     path('students_dashboard/', admin_views.students_dash, name='students_dash'),
@@ -19,7 +19,9 @@ urlpatterns = [
     path('add_result/', admin_views.add_result, name='add_result'),
     path('add_student/', admin_views.add_student, name='add_student'),
     path('add_admin/', admin_views.add_admin, name='add_admin'),
-
+    path('reset_password/', admin_views.reset_password, name='reset_password'),
+    path('delete_admin/<int:pk>', admin_views.delete_admin, name='delete_admin'),
+    
     #  Get Sudent Results 
     path('get_results/<int:pk>',admin_views.get_results,name='get_results'),
     path('edit_result/<int:result_id>/', admin_views.edit_result, name='edit_result'),
@@ -32,8 +34,7 @@ urlpatterns = [
     # Upload Excel 
     path('upload_excel/', admin_views.upload_excel, name='upload_excel'),
     
-    path('reset_password/', admin_views.reset_password, name='reset_password'),
-    path('delete_admin/<int:pk>', admin_views.delete_admin, name='delete_admin'),
+
 
 
 ]
