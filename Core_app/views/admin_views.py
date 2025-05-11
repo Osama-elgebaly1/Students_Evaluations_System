@@ -90,8 +90,8 @@ def upload_excel(request):
     Excel columns expected: ['Student ID', 'Student Name' , 'Sector', 'Grade', 'Rating', 'Message', 'Month']
 
     """
-    if request.user.is_authenticated and request.user.is_staff:
-        if request.method == 'POST':
+
+    if request.method == 'POST':
             form = ExcelUploadForm(request.POST, request.FILES)
             if form.is_valid():
                 excel_file = request.FILES['file']
@@ -128,15 +128,14 @@ def upload_excel(request):
                             message=row.get('Message', ''),
                             month=month_date
                         )
+                        
 
                 return redirect('students_dash')
-        else:
+    else:
             form = ExcelUploadForm()
 
-        return render(request, 'admin/upload_excel.html', {'form': form})
-    else:
-        messages.error(request,'You have to login as administrator to access this page...')
-        return redirect('check_results')
+    return render(request, 'admin/upload_excel.html', {'form': form})
+
 
 
 @staff_required
