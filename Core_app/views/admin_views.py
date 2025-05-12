@@ -121,13 +121,19 @@ def upload_excel(request):
 
                     # Check if result exists
                     if not Result.objects.filter(student=student, month=month_date).exists():
-                        Result.objects.create(
+                        result = Result.objects.create(
                             student=student,
                             grade=row['Grade'],
                             rating=row['Rating'],
                             message=row.get('Message', ''),
                             month=month_date
                         )
+                        log_action(
+                            user=request.user,
+                            obj=result,
+                            action_flag=ADDITION,
+                            message="Result created via custom view"
+                    )
                         
 
                 return redirect('students_dash')
