@@ -23,17 +23,17 @@ The **Student Evaluation System** is a Django-based web application designed for
 ## Technologies Used
 
 - **Backend**: Django (Python)
-- **Database**: PostgreSQL (or SQLite for development)
+- **Database**: MySQL ( SQLite for development)
 - **Frontend**: HTML, CSS, JavaScript
 - **Version Control**: Git, GitHub
-- **Deployment**: Gunicorn, Nginx, PostgreSQL (production setup)
+- **Deployment**: Python anywhere
 
 ## Installation and Setup
 
 ### Requirements
 - Python 3.8+
 - Django 3.x+
-- PostgreSQL (for production, SQLite for development)
+- MySQL (for production, SQLite for development)
 
 
 
