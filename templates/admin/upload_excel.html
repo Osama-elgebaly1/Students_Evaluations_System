@@ -1,9 +1,83 @@
 {% extends "base.html" %}
 {% block title %}Upload Excel{% endblock title %}
 
+{% block style %}
+<style>
+  .upload-excel-container {
+    max-width: 500px;
+    margin: 48px auto 0 auto;
+    background: #232946;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+    padding: 38px 32px 28px 32px;
+    animation: fadeIn 0.8s;
+  }
+  .upload-excel-container h2 {
+    color: #6dd5fa;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .upload-excel-container label {
+    color: #eaeaea;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .upload-excel-container input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 7px;
+    border: 1.5px solid #6dd5fa;
+    background: #16161a;
+    color: #eaeaea;
+    font-size: 1em;
+    margin-bottom: 8px;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .upload-excel-container input[type="file"]:focus {
+    border: 1.5px solid #48c6ef;
+    box-shadow: 0 0 0 2px #6dd5fa33;
+  }
+  .upload-excel-container .btn-success {
+    background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+    color: #232946;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.08em;
+    font-weight: 500;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .upload-excel-container .btn-success:hover {
+    background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.03);
+  }
+  .upload-excel-container .alert-danger {
+    background: #ff6b6b22;
+    color: #ff6b6b;
+    border: none;
+    border-radius: 7px;
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 1em;
+  }
+  @media (max-width: 600px) {
+    .upload-excel-container {
+      padding: 18px 6vw 18px 6vw;
+    }
+  }
+</style>
+{% endblock style %}
+
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-  <h2 class="text-center mb-4">Upload Excel File</h2>
+<div class="upload-excel-container">
+  <h2>Upload Excel File</h2>
 
   {% if form.errors %}
     <div class="alert alert-danger">
@@ -19,10 +93,3 @@
   </form>
 </div>
 {% endblock content %}
-
-
-
-
-
-
-

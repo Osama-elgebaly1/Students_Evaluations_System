@@ -7,47 +7,126 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #f8f9fa;
+      background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+      color: #eaeaea;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .login-container {
-      max-width: 400px;
+      max-width: 480px;
+      min-width: 340px;
       margin: 80px auto;
-      padding: 30px;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      padding: 54px 44px 38px 44px;
+      background: #232946;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(44,62,80,0.28);
+      animation: fadeIn 0.8s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .login-title {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
+      color: #6dd5fa;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 2em;
+    }
+    label {
+      color: #eaeaea;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 9px;
+      border: 2px solid #6dd5fa;
+      background: #16161a;
+      color: #eaeaea;
+      font-size: 1.13em;
+      margin-bottom: 10px;
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    }
+    input[type="text"]:focus, input[type="password"]:focus {
+      border: 2px solid #48c6ef;
+      box-shadow: 0 0 0 2px #6dd5fa33;
+    }
+    .btn-secondary {
+      background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+      color: #232946;
+      border: none;
+      border-radius: 9px;
+      font-size: 1.13em;
+      font-weight: 600;
+      padding: 15px 0;
+      box-shadow: 0 2px 12px rgba(44,62,80,0.18);
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      width: 100%;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .btn-secondary:hover {
+      background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+    }
+    .invalid-feedback, .errorlist {
+      color: #ff6b6b;
+      font-size: 0.97em;
+      margin: 4px 0 0 0;
+      list-style: none;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      .login-container {
+        max-width: 98vw;
+        min-width: unset;
+        padding: 18px 6vw 18px 6vw;
+      }
+      .login-title {
+        font-size: 1.3em;
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="login-container">
-      <h3 class="login-title">Admin Login</h3>
+  <div class="login-container">
+    <h3 class="login-title">Admin Login</h3>
 
-      <form action="{% url "admin-login" %}" method='POST'>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+    <form action="{% url "admin-login" %}" method='POST' style="width:100%;">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="mb-3">
+        {{ form.username.label_tag }}  
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
       
-        <div class="mb-3">
-          {{ form.username.label_tag }}  
-          {{ form.username }}
-          {{ form.username.errors }}
-        </div>
-        
-        <div class="mb-3">
-          {{ form.password.label_tag }}
-          {{ form.password }}
-          {{ form.password.errors }}
-        </div>
-        <button class='btn btn-secondary'>Login</button>
-      </form>
-
-    </div>
+      <div class="mb-3">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {{ form.password.errors }}
+      </div>
+      <button class='btn btn-secondary'>Login</button>
+    </form>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+
+
+
+

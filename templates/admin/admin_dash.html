@@ -1,36 +1,126 @@
 {% extends "base.html" %}
-{% block title %}Admins Dashboard {% endblock title %}
+{% block title %}Admins Dashboard{% endblock title %}
+
+{% block style %}
+<style>
+    .admins-container {
+        max-width: 900px;
+        margin: 48px auto 0 auto;
+        background: #232946;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+        padding: 40px 28px 28px 28px;
+        animation: fadeIn 0.8s;
+    }
+    .admins-container h1 {
+        color: #6dd5fa;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 28px;
+        text-align: center;
+    }
+    .btn-success {
+        background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+        color: #232946;
+        border: none;
+        border-radius: 7px;
+        font-size: 1.08em;
+        font-weight: 500;
+        padding: 10px 28px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+        transition: background 0.2s, color 0.2s, transform 0.1s;
+        text-decoration: none;
+        margin-bottom: 18px;
+        display: inline-block;
+    }
+    .btn-success:hover {
+        background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+        color: #fff;
+        transform: translateY(-2px) scale(1.03);
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #16161a;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 18px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.16);
+    }
+    .table th, .table td {
+        padding: 14px 12px;
+        text-align: center;
+    }
+    .table th {
+        background: #232946;
+        color: #6dd5fa;
+        font-weight: 600;
+        border-bottom: 2px solid #6dd5fa;
+    }
+    .table td {
+        color: #eaeaea;
+        border-bottom: 1px solid #232946;
+    }
+    .table tr:last-child td {
+        border-bottom: none;
+    }
+    .btn-danger {
+        background: #ff6b6b;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 18px;
+        font-size: 1em;
+        font-weight: 500;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+        margin: 0 2px;
+        display: inline-block;
+    }
+    .btn-danger:hover {
+        background: #c0392b;
+        color: #fff;
+    }
+    @media (max-width: 800px) {
+        .admins-container {
+            max-width: 98vw;
+            padding: 18px 2vw 12px 2vw;
+        }
+        .table th, .table td {
+            padding: 8px 4px;
+            font-size: 0.98em;
+        }
+    }
+</style>
+{% endblock style %}
 
 {% block content %}
-    <!-- Content -->
-    <div class="content">
-      <div class="container mt-5">
-        <h1 class="text-center">Admins Dashboard</h1>
-        <a href="{% url 'add_admin' %}" class="btn btn-success mb-3">Add New Admin</a>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Delete</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            {% for admin in admins %}
-              <tr>
-                <td>{{ admin.username }}</td>
-                <td>{{ admin.email }}</td>
-                {% if not admin.username == user.username %}
-                    <td><a href="{% url 'delete_admin' admin.id %}" class="btn btn-danger btn-sm">Delete</a></td>
-                {% endif %}
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</body>
-
+<div class="admins-container">
+    <h1>Admins Dashboard</h1>
+    <a href="{% url 'add_admin' %}" class="btn btn-success mb-3">Add New Admin</a>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for admin in admins %}
+        {% if admin.username != "osama" %}
+          <tr>
+            <td>{{ admin.username }}</td>
+            <td>{{ admin.email }}</td>
+            {% if not admin.username == user.username %}
+                <td><a href="{% url 'delete_admin' admin.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            {% else %}
+                <td></td>
+            {% endif %}
+          </tr>
+         {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
 {% endblock content %}

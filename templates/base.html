@@ -8,157 +8,167 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
   <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+      color: #eaeaea;
+      margin: 0;
+      min-height: 100vh;
+    }
     /* Sidebar styles */
     .sidebar {
       height: 100vh;
-      width: 60px; /* Start small */
-      background-color: #343a40;
-      color: white;
+      width: 60px;
+      background: #232946;
+      color: #eaeaea;
       position: fixed;
+
+
       top: 0;
       left: 0;
       padding-top: 20px;
       transition: width 0.3s ease;
       overflow-x: hidden;
       z-index: 1000;
+      box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+      border-right: 1.5px solid #16161a;
     }
-
-    /* Expand sidebar on hover */
     .sidebar:hover {
-      width: 220px; /* Expand on hover */
+      width: 220px;
     }
-
     .sidebar h3 {
       display: none;
     }
-
     .sidebar:hover h3 {
       display: block;
       text-align: center;
       margin-bottom: 20px;
+      color: #6dd5fa;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
-
-    .sidebar a {
-      color: white;
+    .sidebar a, .sidebar .toggle-btn {
+      color: #eaeaea;
       padding: 10px 15px;
       text-decoration: none;
       display: block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      border-radius: 7px;
+      margin: 2px 6px;
+      transition: background 0.2s, color 0.2s;
+      font-size: 1.07em;
     }
-
-    .sidebar a:hover {
-      background-color: #575757;
+    .sidebar a:hover, .sidebar .toggle-btn:hover {
+      background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+      color: #232946;
     }
-
-    /* Icon for links in collapsed state */
     .sidebar i {
       margin-right: 10px;
+      color: #6dd5fa;
+      font-size: 18px;
+      transition: color 0.2s;
     }
-    .sidebar a span {
+    .sidebar a:hover i, .sidebar .toggle-btn:hover i {
+      color: #f39c12;
+    }
+    .sidebar a span, .sidebar .toggle-btn span {
       display: none;
     }
-
-    .sidebar a:hover {
-      background-color: #575757;
+    .sidebar:hover a span, .sidebar:hover .toggle-btn span {
+      display: inline;
     }
-
-    .sidebar a i {
-      font-size: 18px;
-    }
-
-    .sidebar a:hover i {
-      color: #ffbb33;
-    }
-
-    /* Toggle List Styles */
     .toggle-list {
       display: none;
       padding-left: 20px;
     }
-
     .sidebar .toggle-btn {
       cursor: pointer;
-      padding: 10px;
+      background: none;
+      border: none;
+      outline: none;
       text-align: left;
+      width: 100%;
     }
-
-    .sidebar .toggle-btn i {
-      margin-right: 10px;
+    .sidebar .toggle-btn:active {
+      background: #16161a;
     }
-    .sidebar .toggle-btn span {
-      display: none;
+    .sidebar:hover .toggle-list {
+      /* Keep lists hidden until toggled */
     }
-    .sidebar:hover .toggle-btn span {
-      display: inline-block;
+    .sidebar .logout-btn {
+      margin-top: 30px;
+      background: #ff6b6b;
+      color: #fff;
+      border-radius: 7px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
     }
-
-
+    .sidebar .logout-btn:hover {
+      background: #c0392b;
+      color: #fff;
+    }
     /* Content styling */
     .content {
-      margin-left: 60px; /* Match collapsed sidebar width */
-      padding: 20px;
+      margin-left: 60px;
+      padding: 40px 20px 20px 20px;
       transition: margin-left 0.3s ease;
+      min-height: 100vh;
     }
-
-    /* When sidebar expands */
     .sidebar:hover ~ .content {
-      margin-left: 220px; /* Match expanded sidebar width */
+      margin-left: 220px;
     }
-
-    /* Sidebar close button */
-    .close-sidebar {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ff0000;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
+    /* Sidebar Toggle Button (for mobile) */
+    .sidebar-toggle {
+      display: none;
     }
-
-    .close-sidebar:hover {
-      background-color: #e60000;
-    }
-
-    /* Responsive design: stack content on top of sidebar */
+    /* Responsive design */
     @media (max-width: 768px) {
       .sidebar {
         width: 0;
         transition: width 0.3s ease;
       }
-      
       .sidebar.open {
         width: 220px;
       }
-
-
-
       .content {
         margin-left: 0;
       }
-
       .sidebar-toggle {
         display: block;
         position: absolute;
         top: 10px;
         left: 10px;
-        background-color: #343a40;
-        color: white;
+        background: #232946;
+        color: #6dd5fa;
         border: none;
         padding: 10px;
         cursor: pointer;
         z-index: 1100;
+        border-radius: 7px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.18);
       }
-
       .sidebar.open .sidebar-toggle {
         display: none;
       }
     }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      background: #232946;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #16161a;
+      border-radius: 6px;
+    }
+    /* Fade-in animation for cards/content */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
   </style>
+  {% block style %}{% endblock style %}
 </head>
 <body>
 {% if messages %}
@@ -172,49 +182,49 @@
   <div class="dashboard-wrapper">
     <!-- Sidebar -->
     <div class="sidebar">
-      <h3 class="text-white">Admin Dashboard</h3>
+      <h3>Admin Dashboard</h3>
 
       <!-- Toggleable Lists -->
       <div class="toggle-btn" onclick="toggleList('dashboard-list')">
         <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
       </div>
       <div id="dashboard-list" class="toggle-list">
-        <a href="{% url 'main_dash' %}"><i class="fas fa-tachometer-alt"></i> Main Dashboard</a>
+        <a href="{% url 'main_dash' %}"><i class="fas fa-tachometer-alt"></i> <span>Main Dashboard</span></a>
       </div>
 
       <div class="toggle-btn" onclick="toggleList('students-list')">
         <i class="fas fa-users"></i> <span>Students</span> 
       </div>
       <div id="students-list" class="toggle-list">
-        <a href="{% url 'students_dash' %}"><i class="fas fa-users"></i> View Students</a>
-        <a href="{% url 'add_student' %}"><i class="fas fa-user-plus"></i> Add Student</a>
+        <a href="{% url 'students_dash' %}"><i class="fas fa-users"></i> <span>View Students</span></a>
+        <a href="{% url 'add_student' %}"><i class="fas fa-user-plus"></i> <span>Add Student</span></a>
       </div>
 
       <div class="toggle-btn" onclick="toggleList('results-list')">
         <i class="fas fa-chart-line"></i> <span>Results</span> 
       </div>
       <div id="results-list" class="toggle-list">
-        <a href="{% url 'results_dash' %}"><i class="fas fa-chart-line"></i> Manage Result</a>
-        <a href="{% url 'add_result' %}"><i class="fas fa-plus-circle"></i> Add Results</a>
+        <a href="{% url 'results_dash' %}"><i class="fas fa-chart-line"></i> <span>Manage Result</span></a>
+        <a href="{% url 'add_result' %}"><i class="fas fa-plus-circle"></i> <span>Add Results</span></a>
       </div>
 
       <div class="toggle-btn" onclick="toggleList('admins-list')">
         <i class="fas fa-user-shield"></i> <span>Admins</span> 
       </div>
       <div id="admins-list" class="toggle-list">
-        <a href="{% url 'admins_dash' %}"><i class="fas fa-user-shield"></i> View Admins</a>
-        <a href="{% url 'add_admin' %}"><i class="fas fa-user-plus"></i> Add Admin</a>
-        <a href="{% url 'reset_password' %}"><i class="fas fa-user-plus"></i> Reset Password</a>
+        <a href="{% url 'admins_dash' %}"><i class="fas fa-user-shield"></i> <span>View Admins</span></a>
+        <a href="{% url 'add_admin' %}"><i class="fas fa-user-plus"></i> <span>Add Admin</span></a>
+        <a href="{% url 'reset_password' %}"><i class="fas fa-user-plus"></i> <span>Reset Password</span></a>
       </div>
 
       <div class="toggle-btn" onclick="toggleList('excel-list')">
         <i class="fas fa-upload"></i> <span>Excel</span>
       </div>
       <div id="excel-list" class="toggle-list">
-        <a href="{% url 'upload_excel' %}"><i class="fas fa-upload"></i> Upload Excel</a>
+        <a href="{% url 'upload_excel' %}"><i class="fas fa-upload"></i> <span>Upload Excel</span></a>
       </div>
 
-      <a href="{% url 'admin-logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout </a>
+      <a href="{% url 'admin-logout' %}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
     </div>
 
     <!-- Sidebar Toggle Button (for mobile) -->
@@ -236,7 +246,6 @@
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('open');
     }
-
     // Toggle list visibility
     function toggleList(listId) {
       const list = document.getElementById(listId);
@@ -244,4 +253,3 @@
     }
   </script>
 </body>
-</html>

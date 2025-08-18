@@ -23,12 +23,12 @@ def check_results(request):
         last_result = results.first()
         previous_results = results[1:]
 
-        return render(request, 'student_templates/results.html', {
+        return render(request, 'students/results.html', {
             'student': student,
             'last_result': last_result,
             'previous_results': previous_results,
         })
 
-    return render(request, 'student_templates/check_results.html')
+    return render(request, 'students/home.html')
 
 

@@ -2,17 +2,144 @@
 {% block title %}Students Dashboard {% endblock title %}
 
 {% block content %}
-    <!-- Content -->
+<style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+        color: #eaeaea;
+        margin: 0;
+        min-height: 100vh;
+    }
+    .content {
+        padding: 0 0 40px 0;
+    }
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #232946;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+        padding: 40px 28px 28px 28px;
+        margin-top: 40px;
+    }
+    h1 {
+        color: #6dd5fa;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 28px;
+    }
+    .btn-success {
+        background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+        color: #232946;
+        border: none;
+        border-radius: 7px;
+        font-size: 1.08em;
+        font-weight: 500;
+        padding: 10px 28px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+        transition: background 0.2s, color 0.2s, transform 0.1s;
+        text-decoration: none;
+        margin-bottom: 18px;
+        display: inline-block;
+    }
+    .btn-success:hover {
+        background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+        color: #fff;
+        transform: translateY(-2px) scale(1.03);
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #16161a;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 18px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.16);
+    }
+    .table th, .table td {
+        padding: 14px 12px;
+        text-align: center;
+    }
+    .table th {
+        background: #232946;
+        color: #6dd5fa;
+        font-weight: 600;
+        border-bottom: 2px solid #6dd5fa;
+    }
+    .table td {
+        color: #eaeaea;
+        border-bottom: 1px solid #232946;
+    }
+    .table tr:last-child td {
+        border-bottom: none;
+    }
+    .btn-warning {
+        background: #f39c12;
+        color: #232946;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 18px;
+        font-size: 1em;
+        font-weight: 500;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+        margin: 0 2px;
+        display: inline-block;
+    }
+    .btn-warning:hover {
+        background: #e67e22;
+        color: #fff;
+    }
+    .btn-danger {
+        background: #ff6b6b;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 18px;
+        font-size: 1em;
+        font-weight: 500;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+        margin: 0 2px;
+        display: inline-block;
+    }
+    .btn-danger:hover {
+        background: #c0392b;
+        color: #fff;
+    }
+    a {
+        color: #6dd5fa;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    a:hover {
+        color: #f39c12;
+        text-decoration: underline;
+    }
+    @media (max-width: 800px) {
+        .container {
+            max-width: 98vw;
+            padding: 18px 2vw 12px 2vw;
+        }
+        .table th, .table td {
+            padding: 8px 4px;
+            font-size: 0.98em;
+        }
+    }
+</style>
     <div class="content">
-      <div class="container mt-5">
+      <div class="container">
         <h1 class="text-center">Students Dashboard</h1>
-        <a href="{% url 'add_student' %}" class="btn btn-success mb-3">Add New Student</a>
+        <a href="{% url 'add_student' %}" class="btn-success mb-3">Add New Student</a>
         <table class="table table-bordered">
           <thead>
             <tr>
               <th>Name</th>
               <th>ID</th>
               <th>Sector</th>
+              <th>Phone</th>
+              <th>Email</th>
+
               <th>Edit</th>
               <th>Delete</th>
             </tr>
@@ -20,20 +147,37 @@
           <tbody>
             {% for student in students %}
               <tr>
-                
-                <td>  <a href="{% url "get_results" student.id  %} ">{{ student.name }}</a> </td>
+                <td><a href="{% url "get_results" student.id %}">{{ student.name }}</a></td>
                 <td>{{ student.student_id }}</td>
                 <td>{{ student.sector }}</td>
-                <td><a href="{% url 'edit_student' student.id %}" class="btn btn-warning btn-sm">Edit</a></td>
-                <td><a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                <td>
+                {% if student.phone_number %}
+                    <button class="btn btn-sm btn-dark ms-2 toggle-message">Phone</button>
+                    <div class="alert alert-secondary mt-2 d-none">{{ student.phone_number }}</div>
+                {% endif %}
+                </td>
+                <td>
+                    {% if student.email %}
+                        <button class="btn btn-sm btn-dark ms-2 toggle-message">Email</button>
+                        <div class="alert alert-secondary mt-2 d-none">{{ student.email }}</div>
+                    {% endif %}
+                </td>
 
+                <td><a href="{% url 'edit_student' student.id %}" class="btn-warning btn-sm">Edit</a></td>
+                <td><a href="{% url 'delete_student' student.id %}" class="btn-danger btn-sm">Delete</a></td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
-  </div>
-</body>
-
+<script>
+  document.querySelectorAll('.toggle-message').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const messageBox = this.nextElementSibling;
+      messageBox.classList.toggle('d-none');
+    });
+  });
+</script>
 {% endblock content %}
+

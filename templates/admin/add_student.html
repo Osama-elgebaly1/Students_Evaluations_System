@@ -1,36 +1,120 @@
 {% extends "base.html" %}
-{% block title %}Add Student {% endblock title %}
+{% block title %}Add Student{% endblock title %}
+
+{% block style %}
+<style>
+    .add-student-container {
+        max-width: 430px;
+        margin: 48px auto 0 auto;
+        background: #232946;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+        padding: 38px 32px 28px 32px;
+        animation: fadeIn 0.8s;
+    }
+    .add-student-container h2 {
+        color: #6dd5fa;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 28px;
+        text-align: center;
+    }
+    .add-student-container label {
+        color: #eaeaea;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+    .add-student-container input,
+    .add-student-container select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 7px;
+        border: 1.5px solid #6dd5fa;
+        background: #16161a;
+        color: #eaeaea;
+        font-size: 1em;
+        margin-bottom: 8px;
+        transition: border 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+    .add-student-container input:focus,
+    .add-student-container select:focus {
+        border: 1.5px solid #48c6ef;
+        box-shadow: 0 0 0 2px #6dd5fa33;
+    }
+    .add-student-container .mb-3 {
+        margin-bottom: 18px;
+    }
+    .add-student-container .btn-primary {
+        background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+        color: #232946;
+        border: none;
+        border-radius: 7px;
+        font-size: 1.08em;
+        font-weight: 500;
+        padding: 12px 0;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+        transition: background 0.2s, color 0.2s, transform 0.1s;
+        width: 100%;
+        margin-top: 8px;
+    }
+    .add-student-container .btn-primary:hover {
+        background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+        color: #fff;
+        transform: translateY(-2px) scale(1.03);
+    }
+    .add-student-container .errorlist {
+        color: #ff6b6b;
+        font-size: 0.97em;
+        margin: 4px 0 0 0;
+        list-style: none;
+        padding: 0;
+    }
+    @media (max-width: 600px) {
+        .add-student-container {
+            padding: 18px 6vw 18px 6vw;
+        }
+    }
+</style>
+{% endblock style %}
+
 {% block content %}
+<div class="add-student-container">
+    <h2>Add New Student</h2>
+    <form method="POST" action="{% url 'add_student' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
 
-
-      <div class="content">
-        <h2 class="text-center mb-4">Add New Student</h2>
-
-        <form method="POST" action="{% url 'add_student' %}">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-
-          <div class="mb-3">
-            {{ form.name.label_tag }}  
+        <div class="mb-3">
+            {{ form.name.label_tag }}
             {{ form.name }}
             {{ form.name.errors }}
-          </div>
-          <div class="mb-3">
-            {{ form.sector.label_tag }}  
+        </div>
+
+        <div class="mb-3">
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+            {{ form.phone_number.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.sector.label_tag }}
             {{ form.sector }}
             {{ form.sector.errors }}
-          </div>
+        </div>
 
-          <div class="mb-3">
+        <div class="mb-3">
             {{ form.student_id.label_tag }}
             {{ form.student_id }}
             {{ form.student_id.errors }}
-          </div>
+        </div>
 
-          <button type="submit" class="btn btn-primary w-100">Submit</button>
-        </form>
-      </div>
-    </div>
-</body>
-</html>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 {% endblock content %}

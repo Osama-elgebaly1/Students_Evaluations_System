@@ -1,50 +1,118 @@
 {% extends "base.html" %}
-{% block title %}Add Result {% endblock title %}
+{% block title %}Add Result{% endblock title %}
+
+{% block style %}
+<style>
+  .add-result-container {
+    max-width: 480px;
+    margin: 48px auto 0 auto;
+    background: #232946;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+    padding: 38px 32px 28px 32px;
+    animation: fadeIn 0.8s;
+  }
+  .add-result-container h2 {
+    color: #6dd5fa;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .add-result-container label {
+    color: #eaeaea;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .add-result-container input,
+  .add-result-container select,
+  .add-result-container textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 7px;
+    border: 1.5px solid #6dd5fa;
+    background: #16161a;
+    color: #eaeaea;
+    font-size: 1em;
+    margin-bottom: 8px;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .add-result-container input:focus,
+  .add-result-container select:focus,
+  .add-result-container textarea:focus {
+    border: 1.5px solid #48c6ef;
+    box-shadow: 0 0 0 2px #6dd5fa33;
+  }
+  .add-result-container .mb-3 {
+    margin-bottom: 18px;
+  }
+  .add-result-container .btn-primary {
+    background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+    color: #232946;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.08em;
+    font-weight: 500;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .add-result-container .btn-primary:hover {
+    background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.03);
+  }
+  .add-result-container .errorlist {
+    color: #ff6b6b;
+    font-size: 0.97em;
+    margin: 4px 0 0 0;
+    list-style: none;
+    padding: 0;
+  }
+  @media (max-width: 600px) {
+    .add-result-container {
+      padding: 18px 6vw 18px 6vw;
+    }
+  }
+</style>
+{% endblock style %}
+
 {% block content %}
+<div class="add-result-container">
+  <h2 class="mb-4">Add New Result</h2>
+  <form method="POST" action="{% url 'add_result' %}">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-
-      <div class="content" >
-        <h2 class="text-center mb-4">Add New Result</h2>
-        
-        <form method="POST" action="{% url 'add_result' %}">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-          
-          <div class="mb-3">
-            {{ form.student.label_tag }}  
-            {{ form.student }}
-            {{ form.student.errors }}
-          </div>
-          
-
-
-          <div class="mb-3">
-            {{ form.rating.label_tag }}
-            {{ form.rating }}
-            {{ form.rating.errors }}
-          </div>
-          <div class="mb-3">
-            {{ form.grade.label_tag }}
-            {{ form.grade }}
-            {{ form.grade.errors }}
-          </div>
-
-          <div class="mb-3">
-            {{ form.message.label_tag }}
-            {{ form.message }}
-            {{ form.message.errors }}
-          </div>
-
-          <div class="mb-3">
-            {{ form.month.label_tag }}
-            {{ form.month }}
-            {{ form.month.errors }}
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100">Submit</button>
-        </form>
-      </div>
+    <div class="mb-3">
+      {{ form.student.label_tag }}  
+      {{ form.student }}
+      {{ form.student.errors }}
     </div>
-</body>
-</html>
+    <div class="mb-3">
+      {{ form.rating.label_tag }}
+      {{ form.rating }}
+      {{ form.rating.errors }}
+    </div>
+    <div class="mb-3">
+      {{ form.grade.label_tag }}
+      {{ form.grade }}
+      {{ form.grade.errors }}
+    </div>
+    <div class="mb-3">
+      {{ form.message.label_tag }}
+      {{ form.message }}
+      {{ form.message.errors }}
+    </div>
+    <div class="mb-3">
+      {{ form.month.label_tag }}
+      {{ form.month }}
+      {{ form.month.errors }}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
 {% endblock content %}

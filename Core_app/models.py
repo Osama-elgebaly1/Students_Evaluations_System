@@ -4,12 +4,14 @@ from django.db import models
 
 class Student(models.Model):
     name = models.CharField(max_length=255)
-    sector = models.CharField(max_length=100,null=True)  # <-- New field added
+    email = models.EmailField(blank=True, null=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    sector = models.CharField(max_length=100,null=True)
     student_id = models.CharField(max_length=50,unique=True)
 
     def __str__(self):
         return self.name
-    
+
 
 class Result(models.Model):
     MONTH_CHOICES = (
@@ -26,14 +28,13 @@ class Result(models.Model):
         ('November', 'November'),
         ('December', 'December'),
     )
-    
+
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
-    grade = models.CharField(max_length=2)
-    rating = models.DecimalField(max_digits=5,decimal_places=2)
+    grade = models.DecimalField(max_digits=5,decimal_places=2)
+    rating = models.CharField(max_length=2)
     message = models.TextField(max_length=500,null=True,blank=True)
-    month = models.DateField()  
+    month = models.DateField()
 
     def __str__(self):
         return f"{self.student.name} - {self.rating}"
-    
-    
+

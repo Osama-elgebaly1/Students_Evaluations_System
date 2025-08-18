@@ -1,50 +1,132 @@
 {% extends "base.html" %}
 {% block title %}Add Admin{% endblock title %}
+
+{% block style %}
+<style>
+  .add-admin-container {
+    max-width: 430px;
+    margin: 48px auto 0 auto;
+    background: #232946;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+    padding: 38px 32px 28px 32px;
+    animation: fadeIn 0.8s;
+  }
+  .add-admin-container h2 {
+    color: #6dd5fa;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .add-admin-container label {
+    color: #eaeaea;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .add-admin-container input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 7px;
+    border: 1.5px solid #6dd5fa;
+    background: #16161a;
+    color: #eaeaea;
+    font-size: 1em;
+    margin-bottom: 8px;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .add-admin-container input:focus {
+    border: 1.5px solid #48c6ef;
+    box-shadow: 0 0 0 2px #6dd5fa33;
+  }
+  .add-admin-container .mb-3 {
+    margin-bottom: 18px;
+  }
+  .add-admin-container .btn-success {
+    background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+    color: #232946;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.08em;
+    font-weight: 500;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .add-admin-container .btn-success:hover {
+    background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.03);
+  }
+  .add-admin-container .invalid-feedback {
+    color: #ff6b6b;
+    font-size: 0.97em;
+    margin: 4px 0 0 0;
+  }
+  .add-admin-container .alert-danger {
+    background: #ff6b6b22;
+    color: #ff6b6b;
+    border: none;
+    border-radius: 7px;
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 1em;
+  }
+  @media (max-width: 600px) {
+    .add-admin-container {
+      padding: 18px 6vw 18px 6vw;
+    }
+  }
+</style>
+{% endblock style %}
+
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-  <h2 class="text-center mb-4">Register New Admin</h2>
-  
+<div class="add-admin-container">
+  <h2>Register New Admin</h2>
   {% if form.errors %}
     <div class="alert alert-danger">
       Please fix the errors below.
     </div>
   {% endif %}
 
-  <form method="POST" action = "{% url "add_admin" %}" novalidate>
+  <form method="POST" action="{% url 'add_admin' %}" novalidate>
     {% csrf_token %}
     <div class="mb-3">
-      <label for="id_username" class="form-label">Username</label>
-      <input type="text" name="username" class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="id_username" value="{{ form.username.value|default_if_none:'' }}">
+      <label for="id_username">Username</label>
+      <input type="text" name="username" class="{% if form.username.errors %}is-invalid{% endif %}" id="id_username" value="{{ form.username.value|default_if_none:'' }}">
       {% for error in form.username.errors %}
         <div class="invalid-feedback">{{ error }}</div>
       {% endfor %}
     </div>
 
     <div class="mb-3">
-      <label for="id_email" class="form-label">Email</label>
-      <input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email" value="{{ form.email.value|default_if_none:'' }}">
+      <label for="id_email">Email</label>
+      <input type="email" name="email" class="{% if form.email.errors %}is-invalid{% endif %}" id="id_email" value="{{ form.email.value|default_if_none:'' }}">
       {% for error in form.email.errors %}
         <div class="invalid-feedback">{{ error }}</div>
       {% endfor %}
     </div>
 
     <div class="mb-3">
-      <label for="id_password" class="form-label">Password</label>
-      <input type="password" name="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" id="id_password">
+      <label for="id_password">Password</label>
+      <input type="password" name="password" class="{% if form.password.errors %}is-invalid{% endif %}" id="id_password">
       {% for error in form.password.errors %}
         <div class="invalid-feedback">{{ error }}</div>
       {% endfor %}
     </div>
 
     <div class="mb-3">
-      <label for="id_confirm_password" class="form-label">Confirm Password</label>
-      <input type="password" name="confirm_password" class="form-control {% if form.confirm_password.errors %}is-invalid{% endif %}" id="id_confirm_password">
+      <label for="id_confirm_password">Confirm Password</label>
+      <input type="password" name="confirm_password" class="{% if form.confirm_password.errors %}is-invalid{% endif %}" id="id_confirm_password">
       {% for error in form.confirm_password.errors %}
         <div class="invalid-feedback">{{ error }}</div>
       {% endfor %}
     </div>
 
-    <button type="submit" class="btn btn-success w-100">Register</button>
+    <button type="submit" class="btn btn-success">Register</button>
   </form>
 </div>
-{% endblock %}
+{% endblock content %}

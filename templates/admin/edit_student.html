@@ -1,8 +1,107 @@
 {% extends "base.html" %}
-{% block title %}Edit Result{% endblock %}
+{% block title %}Edit Student{% endblock %}
+
+{% block style %}
+<style>
+  .edit-result-container {
+    max-width: 480px;
+    margin: 48px auto 0 auto;
+    background: #232946;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+    padding: 38px 32px 28px 32px;
+    animation: fadeIn 0.8s;
+  }
+  .edit-result-container h2 {
+    color: #6dd5fa;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .edit-result-container label {
+    color: #eaeaea;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .edit-result-container input,
+  .edit-result-container select,
+  .edit-result-container textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 7px;
+    border: 1.5px solid #6dd5fa;
+    background: #16161a;
+    color: #eaeaea;
+    font-size: 1em;
+    margin-bottom: 8px;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .edit-result-container input:focus,
+  .edit-result-container select:focus,
+  .edit-result-container textarea:focus {
+    border: 1.5px solid #48c6ef;
+    box-shadow: 0 0 0 2px #6dd5fa33;
+  }
+  .edit-result-container .btn-primary {
+    background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+    color: #232946;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.08em;
+    font-weight: 500;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .edit-result-container .btn-primary:hover {
+    background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.03);
+  }
+  .edit-result-container .btn-secondary {
+    background: #16161a;
+    color: #6dd5fa;
+    border: 1.5px solid #6dd5fa;
+    border-radius: 7px;
+    font-size: 1.08em;
+    font-weight: 500;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    width: 100%;
+    margin-bottom: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .edit-result-container .btn-secondary:hover {
+    background: #232946;
+    color: #fff;
+    border-color: #48c6ef;
+    transform: translateY(-2px) scale(1.03);
+  }
+  .edit-result-container .errorlist {
+    color: #ff6b6b;
+    font-size: 0.97em;
+    margin: 4px 0 0 0;
+    list-style: none;
+    padding: 0;
+  }
+  @media (max-width: 600px) {
+    .edit-result-container {
+      padding: 18px 6vw 18px 6vw;
+    }
+  }
+</style>
+{% endblock style %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 600px;">
+<div class="edit-result-container">
   <h2 class="mb-4">Edit Student</h2>
   <form method="POST">
     {% csrf_token %}

@@ -30,7 +30,7 @@ def superuser_required(view_func):
             return redirect('main_dash')  # Change 'check_results' to the actual page name
 
         return view_func(request, *args, **kwargs)
-    
+
     return _wrapped_view
 
 
@@ -52,7 +52,7 @@ def staff_required(view_func):
             return redirect('check_results')  # Change 'check_results' to the actual page name
 
         return view_func(request, *args, **kwargs)
-    
+
     return _wrapped_view
 
 
@@ -69,7 +69,7 @@ def log_action(user, obj, action_flag, message):
 
 
 
-# Excel upload imports 
+# Excel upload imports
 import pandas as pd
 from Core_app.forms import ExcelUploadForm
 from datetime import datetime
@@ -80,7 +80,7 @@ def upload_excel(request):
     """
     Handles the upload of an Excel file to update student results.
 
-    This view is accessible only to Staff users. It processes the uploaded file, 
+    This view is accessible only to Staff users. It processes the uploaded file,
     extracts student data (Student ID, Name, Sector, Month, Grade, Rating, and Message), and updates the database.
     If the student or result doesn't exist, it creates new records.
 
@@ -115,20 +115,27 @@ def upload_excel(request):
                         else:
                             # if it's already a timestamp or datetime
                             month_date = pd.to_datetime(row['Month']).to_pydatetime().replace(day=1)
-                    except Exception as e:
+                    except Exception:
                         print(f"Invalid month format: {row['Month']}")
                         continue  # skip this row
 
                     # Check if result exists
                     if not Result.objects.filter(student=student, month=month_date).exists():
-                        Result.objects.create(
+                        result = Result.objects.create(
                             student=student,
                             grade=row['Grade'],
                             rating=row['Rating'],
                             message=row.get('Message', ''),
                             month=month_date
                         )
-                        
+                        log_action(
+                            user=request.user,
+                            obj=result,
+                            action_flag=ADDITION,
+                            message="Result created via custom view"
+                        )
+
+
 
                 return redirect('students_dash')
     else:
@@ -181,7 +188,7 @@ def delete_admin(request,pk):
                 user=request.user,
                 obj=admin,
                 action_flag=DELETION,
-                message="Admin deleted via custom view" 
+                message="Admin deleted via custom view"
                 )
         return redirect('admins_dash')
 
@@ -201,12 +208,12 @@ def reset_password(request):
                 messages.success(request,'Password has been reset successfully ...')
                 return redirect('admin-login')
             else:
-                messages.error(request,'Passwords must be the same ...')
+                messages.error(request,'Passwords must match ...')
                 return redirect('reset_password')
         else:
             return render(request,'admin/reset_password.html')
 
-    
+
 
 @superuser_required
 def add_admin(request):
@@ -260,7 +267,7 @@ def delete_student(request,student_id):
                 user=request.user,
                 obj=student,
                 action_flag=DELETION,
-                message="Result deleted via custom view" 
+                message="Student deleted via custom view"
             )
     return redirect("students_dash")
 
@@ -285,15 +292,15 @@ def edit_student(request, student_id):
                 user=request.user,
                 obj=student,
                 action_flag=CHANGE,
-                message="Result edited via custom view" + f" by {user}"
+                message="Student edited via custom view" + f" by {user}"
                 )
-            return redirect('students_dash')  # or wherever you want to go after update
+            return redirect('students_dash')
     else:
         form = EditStudentForm(instance=student)
 
     return render(request, 'admin/edit_student.html', {'form': form})
 
- 
+
 @staff_required
 def add_student(request):
     """
@@ -302,7 +309,7 @@ def add_student(request):
     - GET: Display the empty form.
     - POST: Validate and save the student, then redirect to dashboard.
     """
-    form = StudentForm() 
+    form = StudentForm()
     if request.method == 'POST':
         form = StudentForm(request.POST)
         if form.is_valid():
@@ -372,7 +379,7 @@ def add_result(request):
     - GET: Display the empty result form.
     - POST: Save result and redirect to results dashboard on success.
     """
-    form = ResultForm() 
+    form = ResultForm()
     if request.method == 'POST':
         form = ResultForm(request.POST)
         if form.is_valid():
@@ -384,10 +391,10 @@ def add_result(request):
                 message="Result created via custom view"
             )
             return redirect('results_dash')
-            
+
     return render(request, 'admin/add_result.html', {'form': form})
 
-    
+
 
 @staff_required
 def students_dash(request):
@@ -436,7 +443,7 @@ def log_in(request):
     """
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('main_dash')
-    
+
     if request.method == 'POST':
         form = AdminLoginForm(request.POST)
         if form.is_valid():
@@ -449,7 +456,7 @@ def log_in(request):
                 return redirect('main_dash')
             else:
                 form.add_error(None, 'Invalid credentials or not an admin.')
-    else:  
+    else:
         form = AdminLoginForm()
 
     return render(request, 'admin/login.html', {'form': form})

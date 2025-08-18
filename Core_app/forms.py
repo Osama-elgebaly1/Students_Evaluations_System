@@ -10,21 +10,30 @@ class ExcelUploadForm(forms.Form):
 class EditStudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name','sector', 'student_id']  # Adjust based on your model
+        fields = ['name', 'email', 'phone_number', 'sector', 'student_id']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'sector': forms.TextInput(attrs={'class': 'form-control'}),
             'student_id': forms.TextInput(attrs={'class': 'form-control'}),
         }
-        
+
+    # Optional: override fields to make email and phone_number not required
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].required = False
+        self.fields['phone_number'].required = False
+
+
 class EditResultForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = ['student', 'rating','grade','message','month' ]  # Adjust based on your model
         widgets = {
             'student': forms.Select(attrs={'class': 'form-control'}),
-            'grade': forms.TextInput(attrs={'class': 'form-control'}),
-            'rating': forms.NumberInput(attrs={'class': 'form-control'}),
+            'grade': forms.NumberInput(attrs={'class': 'form-control'}),
+            'rating': forms.TextInput(attrs={'class': 'form-control'}),
             'message': forms.TextInput(attrs={'class': 'form-control'}),
             'month': forms.DateInput(
                 attrs={
@@ -89,7 +98,7 @@ class AdminRegistrationForm(forms.ModelForm):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
-        
+
         # Skip matching password check for simplicity
         # If you want to make it super simple, you can allow the passwords to be different or even leave this check out
         if password and confirm_password and password != confirm_password:
@@ -98,16 +107,24 @@ class AdminRegistrationForm(forms.ModelForm):
         # You can skip enforcing strong password criteria here if you want an easy password
         return cleaned_data
 
+
+
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'sector','student_id']
+        fields = ['name', 'email', 'phone_number', 'sector', 'student_id']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter student name'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter email'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter phone number'}),
             'sector': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter student sector'}),
             'student_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter student ID'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].required = False
+        self.fields['phone_number'].required = False
 
 
 
@@ -128,8 +145,8 @@ class ResultForm(forms.ModelForm):
         fields = ['student', 'rating', 'grade', 'message', 'month']
         widgets = {
             'student': forms.Select(attrs={'class': 'form-control'}),
-            'grade': forms.TextInput(attrs={'class': 'form-control'}),
-            'rating': forms.NumberInput(attrs={'class': 'form-control', 'maxlength': 2}),
+            'grade': forms.NumberInput(attrs={'class': 'form-control'}),
+            'rating': forms.TextInput(attrs={'class': 'form-control'}),
             'message': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Optional message...'}),
             'month': forms.DateInput(
                 attrs={

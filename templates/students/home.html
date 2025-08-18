@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Results Portal </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+            color: #eaeaea;
+        }
+        header {
+            background: transparent;
+            color: #eaeaea;
+            padding: 56px 0 18px 0;
+            text-align: center;
+        }
+        .logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #6dd5fa 0%, #232946 100%);
+            border-radius: 50%;
+            margin: 0 auto 18px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 24px rgba(44,62,80,0.25);
+            font-size: 2.5em;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border: 2px solid #6dd5fa;
+        }
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            color: #6dd5fa;
+            font-weight: 700;
+        }
+        header p {
+            font-size: 1.13em;
+            color: #bfc9d1;
+            margin-bottom: 0;
+        }
+        .results-section {
+            max-width: 420px;
+            margin: 40px auto 0 auto;
+            background: #232946;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(44,62,80,0.23);
+            padding: 48px 32px 36px 32px;
+            text-align: center;
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .results-section input[type="text"] {
+            padding: 15px;
+            width: 85%;
+            border: 2px solid #6dd5fa;
+            background: #16161a;
+            color: #eaeaea;
+            border-radius: 9px;
+            font-size: 1.13em;
+            margin-bottom: 18px;
+            outline: none;
+            transition: border 0.2s, background 0.2s;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+        }
+        .results-section input[type="text"]:focus {
+            border: 2px solid #f39c12;
+            background: #232946;
+        }
+        .results-section button {
+            background: linear-gradient(90deg, #6dd5fa 0%, #2980b9 100%);
+            color: #232946;
+            padding: 15px 44px;
+            border: none;
+            border-radius: 9px;
+            font-size: 1.13em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(44,62,80,0.18);
+            transition: background 0.2s, transform 0.1s, color 0.2s;
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+        .results-section button:hover {
+            background: linear-gradient(90deg, #48c6ef 0%, #2471a3 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .admin-login-btn {
+            display: block;
+            margin: 32px auto 0 auto;
+            background: linear-gradient(90deg, #232946 0%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            border-radius: 9px;
+            font-size: 1.08em;
+            font-weight: 500;
+            padding: 12px 36px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.18);
+            transition: background 0.2s, color 0.2s, transform 0.1s;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 1px;
+            width: max-content;
+        }
+        .admin-login-btn:hover {
+            background: linear-gradient(90deg, #6dd5fa 0%, #2471a3 100%);
+            color: #232946;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .grades-card {
+            margin-top: 28px;
+            background: #16161a;
+            border-radius: 12px;
+            padding: 22px 16px 16px 16px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.16);
+            animation: fadeIn 0.7s;
+            display: none;
+            position: relative;
+        }
+        .grades-card h3 {
+            margin-top: 0;
+            color: #6dd5fa;
+            font-size: 1.25em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        .grades-card .icon {
+            font-size: 1.2em;
+            color: #f39c12;
+        }
+        .grades-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .grades-card li {
+            margin-bottom: 10px;
+            font-size: 1.08em;
+        }
+        .grades-card li strong {
+            color: #f39c12;
+        }
+        .grades-card select {
+            margin-bottom: 18px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px solid #6dd5fa;
+            background: #232946;
+            color: #eaeaea;
+            font-size: 1em;
+            margin-top: 8px;
+        }
+        .grades-card .divider {
+            border-top: 1px solid #232946;
+            margin: 18px 0 12px 0;
+            opacity: 0.4;
+        }
+        .grades-card .current-label {
+            color: #6dd5fa;
+            font-size: 0.98em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 18px;
+            display: none;
+            font-weight: 500;
+        }
+        footer {
+            background: transparent;
+            color: #eaeaea;
+            text-align: center;
+            padding: 32px 0 18px 0;
+            margin-top: 60px;
+            font-size: 1.08em;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 600px) {
+            .results-section {
+                max-width: 98vw;
+                padding: 24px 6vw 18px 6vw;
+            }
+            .grades-card {
+                padding: 12px 2vw 8px 2vw;
+            }
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">RHU</div>
+        <h1>Student Results Portal</h1>
+        <p>Welcome! Enter your Student ID below to check your results and view your academic history.</p>
+    </header>
+    <section class="results-section">
+        <form method="post" action="{% url 'check_results' %}">
+            {% csrf_token %}
+            <input type="text" id="student_id" name="student_id" placeholder="Enter your Student ID" required>
+            <br>
+            <button type="submit">Check Results</button>
+        </form>
+    </section>
+
+    <!-- Admin Login Button OUTSIDE the box -->
+    <a href="{% url 'admin-login' %}" class="admin-login-btn">Login as Admin</a>
+
